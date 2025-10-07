@@ -1,13 +1,55 @@
 import * as three from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-// Using Vite public directory - no import needed, access via URL
 
 /**
  * Textures
  */
+
+const loadingManager = new three.LoadingManager();
+
+loadingManager.onStart = () => {
+  console.log("onStart");
+};
+
+loadingManager.onLoad = () => {
+  console.log("onLoad");
+};
+
+loadingManager.onProgress = () => {
+  console.log("onProgress");
+};
+
+loadingManager.onError = () => {
+  console.log("onError");
+};
+
 // Load texture using Three.js TextureLoader
-const textureLoader = new three.TextureLoader();
+const textureLoader = new three.TextureLoader(loadingManager);
 const colorTexture = textureLoader.load("/static/textures/door/color.jpg");
+const alphaTexture = textureLoader.load("/static/textures/door/alpha.jpg");
+const heightTexture = textureLoader.load("/static/textures/door/height.jpg");
+const normalTexture = textureLoader.load("/static/textures/door/normal.jpg");
+const ambientOcclusionTexture = textureLoader.load(
+  "/static/textures/door/ambientOcclusion.jpg",
+);
+const metalnessTexture = textureLoader.load(
+  "/static/textures/door/metalness.jpg",
+);
+const roughnessTexture = textureLoader.load(
+  "/static/textures/door/roughness.jpg",
+);
+
+// colorTexture.repeat.set(2, 3);
+//colorTexture.wrapS = three.RepeatWrapping;
+//colorTexture.wrapT = three.RepeatWrapping;
+
+//colorTexture.offset.set(0.5, 0.5);
+
+//colorTexture.rotation = Math.PI / 4;
+//colorTexture.center.set(0.5, 0.5);
+
+//colorTexture.minFilter = three.NearestFilter;
+colorTexture.magFilter = three.NearestFilter;
 
 /**
  * Base
@@ -35,6 +77,9 @@ const scene = new three.Scene();
  * Object
  */
 const geometry = new three.BoxGeometry(1, 1, 1);
+//const geometry = new three.SphereGeometry(1, 32, 32);
+//const geometry = new three.ConeGeometry(1, 1);
+//const geometry = new three.TorusGeometry(1, 0.4, 16, 64);
 const material = new three.MeshBasicMaterial({ map: colorTexture });
 const mesh = new three.Mesh(geometry, material);
 scene.add(mesh);
