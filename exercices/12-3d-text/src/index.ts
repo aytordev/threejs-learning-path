@@ -15,9 +15,6 @@ const canvas = document.querySelector("canvas.webgl") as HTMLCanvasElement;
 // Scene
 const scene = new three.Scene();
 
-const axesHelper = new three.AxesHelper(5);
-scene.add(axesHelper);
-
 /**
  * Textures
  */
