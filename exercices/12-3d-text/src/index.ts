@@ -39,32 +39,46 @@ matcapTexture.colorSpace = three.SRGBColorSpace;
 const fontLoader = new FontLoader();
 
 fontLoader.load("/static/fonts/helvetiker_regular.typeface.json", (font) => {
-  const textGeometry = new TextGeometry("code is a therapy for me :)", {
-    font: font,
-    size: 0.5,
-    depth: 0.2,
-    curveSegments: 5,
-    bevelEnabled: true,
-    bevelThickness: 0.03,
-    bevelSize: 0.02,
-    bevelOffset: 0,
-    bevelSegments: 4,
-  });
-
-  // textGeometry.computeBoundingBox();
-
-  // textGeometry.translate(
-  //  -(textGeometry.boundingBox.max.x - 0.02) * 0.5,
-  //  -(textGeometry.boundingBox.max.y - 0.02) * 0.5,
-  //  -(textGeometry.boundingBox.max.z - 0.03) * 0.5,
-  // );
-
-  textGeometry.center();
+  // Text lines to display
+  const textLines = ["code is a", "therapy for", "me :)"];
 
   const textMaterial = new three.MeshMatcapMaterial({ matcap: matcapTexture });
-  const text = new three.Mesh(textGeometry, textMaterial);
+  const lineHeight = 0.6; // Space between lines
 
-  scene.add(text);
+  // Create a group to hold all text lines
+  const textGroup = new three.Group();
+
+  textLines.forEach((line, index) => {
+    const textGeometry = new TextGeometry(line, {
+      font: font,
+      size: 0.5,
+      depth: 0.2,
+      curveSegments: 5,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.02,
+      bevelOffset: 0,
+      bevelSegments: 4,
+    });
+
+    // Align text to the left (no horizontal centering needed)
+
+    const textMesh = new three.Mesh(textGeometry, textMaterial);
+
+    // Position each line vertically
+    textMesh.position.y = -index * lineHeight;
+
+    textGroup.add(textMesh);
+  });
+
+  // Center the entire text group
+  const groupBox = new three.Box3().setFromObject(textGroup);
+  const centerOffset = groupBox
+    .getCenter(new three.Vector3())
+    .multiplyScalar(-1);
+  textGroup.position.copy(centerOffset);
+
+  scene.add(textGroup);
 
   const torusGeometry = new three.TorusGeometry(0.3, 0.2, 20, 45);
   const torusMaterial = new three.MeshMatcapMaterial({
