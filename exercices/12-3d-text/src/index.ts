@@ -24,7 +24,7 @@ scene.add(axesHelper);
 const textureLoader = new three.TextureLoader();
 
 const matcapTexture = textureLoader.load(
-  "/static/textures/matcaps/8.png",
+  "/static/textures/matcaps/12.png",
   (matcapTexture) => {
     matcapTexture.magFilter = three.NearestFilter;
     matcapTexture.minFilter = three.NearestFilter;
@@ -40,10 +40,10 @@ const fontLoader = new FontLoader();
 
 fontLoader.load("/static/fonts/helvetiker_regular.typeface.json", (font) => {
   // Text lines to display
-  const textLines = ["code is a", "therapy for", "me :)"];
+  const textLines = ["last lesson", "of the basics"];
 
   const textMaterial = new three.MeshMatcapMaterial({ matcap: matcapTexture });
-  const lineHeight = 0.6; // Space between lines
+  const lineHeight = 0.7; // Space between lines
 
   // Create a group to hold all text lines
   const textGroup = new three.Group();
@@ -90,7 +90,7 @@ fontLoader.load("/static/fonts/helvetiker_regular.typeface.json", (font) => {
     matcap: matcapTexture,
   });
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 40; i++) {
     const torus = new three.Mesh(torusGeometry, torusMaterial);
     torus.position.x = (Math.random() - 0.5) * 10;
     torus.position.y = (Math.random() - 0.5) * 10;
@@ -101,7 +101,7 @@ fontLoader.load("/static/fonts/helvetiker_regular.typeface.json", (font) => {
     scene.add(torus);
   }
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 40; i++) {
     const cube = new three.Mesh(cubeGeometry, cubeMaterial);
     cube.position.x = (Math.random() - 0.5) * 10;
     cube.position.y = (Math.random() - 0.5) * 10;
